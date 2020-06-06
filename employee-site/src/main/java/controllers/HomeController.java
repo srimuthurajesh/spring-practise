@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import models.Employee;
 import models.EmployeeModelImpl;
@@ -17,7 +18,7 @@ import models.EmployeeModelImpl;
 public class HomeController {
 	
 	@RequestMapping("/addEmployee")
-	String homePage(@RequestParam("empName") String empName, @RequestParam("empAge") int age, @RequestParam("empDept") String dept){
+	String addEmployee(@RequestParam("empName") String empName, @RequestParam("empAge") int age, @RequestParam("empDept") String dept){
 		System.out.println(empName);
 		Employee emp = new Employee();
 		emp.setEmpName(empName);emp.setAge(age);emp.setDept(dept);
@@ -25,12 +26,17 @@ public class HomeController {
 		return "redirect:";
 	}
 	
-	
 	@RequestMapping("/")
 	String defaultPage(Model model){
 		//new EmployeeModelImpl().selectEmployees();
 		List<Employee> employees = new EmployeeModelImpl().selectEmployees();
 		model.addAttribute("empModel", employees);
 		return "index";
+	}
+	
+	@RequestMapping(value = "/deleteEmployee", method = RequestMethod.GET)
+	String deleteEmployee(@RequestParam("empId") int empId, Model model){
+		new EmployeeModelImpl().deleteEmployee(empId);
+		return "redirect:";
 	}
 }
