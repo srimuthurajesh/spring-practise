@@ -62,6 +62,11 @@ public class Employee {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
+
+	@Override
+	public String toString() {
+		return "Employee [age=" + age + ", dept=" + dept + ", empName=" + empName + ", empid=" + empid + "]";
+	}
 }
 
 

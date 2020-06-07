@@ -10,28 +10,27 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public class EmployeeModelImpl {
+public class EmployeeDaoImpl implements EmployeeDao{
 
 	private EntityManager entityManager;
-		
+
 	@Autowired
-	public EmployeeModelImpl(EntityManager theEntityManager) {
+	public EmployeeDaoImpl(EntityManager theEntityManager) {
 		entityManager = theEntityManager;
 	}
 	@Transactional
-	public Employee insertEmployee(Employee emp) {
+	public void save(Employee emp) {
 		Session session = entityManager.unwrap(Session.class);
 		session.save(emp);
-		return session.get(Employee.class, emp.getEmpid());
 	}
 	@Transactional
-	public List<Employee> selectEmployees() {
+	public List<Employee> findAll() {
 		Session session = entityManager.unwrap(Session.class);
 		List<Employee> employees = session.createQuery("from Employee").list();
 		return employees;
 	}
 	@Transactional
-	public boolean deleteEmployee(int empId) {
+	public boolean deleteById(int empId) {
 		Session session = entityManager.unwrap(Session.class);
 		try {
 			Employee employee = new Employee();
@@ -41,5 +40,11 @@ public class EmployeeModelImpl {
 		} catch (Exception e) {
 			return false;
 		} 
+	}
+
+	@Override
+	public Employee findById() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
